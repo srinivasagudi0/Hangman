@@ -1,0 +1,65 @@
+from random import choice
+from string import ascii_lowercase
+
+print("H A N G M A N  # 8 attempts")
+
+win = 0
+lose = 0
+
+def play_game():
+    global win, lose
+    word = choice(["python", "java", "swift", "javascript"])
+    guesses = set()
+    attempts = 8
+    letters = set(word)
+
+    while attempts > 0:
+        print("".join(c if c in guesses else "-" for c in word))
+        letter = input("Input a letter: ")
+
+        if len(letter) != 1:
+            print("Please, input a single letter.")
+            print()
+            continue
+
+        if letter not in ascii_lowercase:
+            print("Please, enter a lowercase letter from the English alphabet.")
+            print()
+            continue
+
+        if letter in guesses:
+            print("You've already guessed this letter.")
+            print()
+            continue
+
+        guesses.add(letter)
+
+        if letter not in letters:
+            attempts -= 1
+            print("That letter doesn't appear in the word.")
+            print()
+        else:
+            print()
+
+        if letters.issubset(guesses):
+            print(f"You guessed the word {word}!")
+            print("You survived!")
+            win += 1
+            return
+
+    print("You lost!")
+    lose += 1
+
+
+while True:
+    command = input('Type "play" to play the game, "results" to show the scoreboard, and "exit" to quit: ')
+    
+    if command == "play":
+        play_game()
+
+    elif command == "results":
+        print(f"You won: {win} times.")
+        print(f"You lost: {lose} times.")
+
+    elif command == "exit":
+        break
